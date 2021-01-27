@@ -6,7 +6,6 @@ replicaCount: 1
 
 image:
   repository: anaisurlichs/rookout-example
-  tag: "test"
   pullPolicy: Always
 
 imagePullSecrets: []
@@ -64,6 +63,8 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+tag: "test"
 
 rookouttoken: "your_token"
 

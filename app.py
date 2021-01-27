@@ -21,6 +21,9 @@ sentry_sdk.init(
 
 app = flask.Flask(__name__, static_url_path='/static')
 
+def cleanStr(str):
+    return re.sub(r'[>|<|;|`|&|/|\\]', '', str)
+
 # unsafeRandId generates a random string composed from english upper case letters and digits
 # it's called unsafe because it doesn't use a crypto random generator
 def unsafeRandId(len):
@@ -92,11 +95,11 @@ def add_todo():
     todos = Store.getInstance().todos
     fr = flask.request
     req = fr.get_json()
-    todoStr = req['title']
+    todoStr = cleanStr(req['title'])
     if not todoStr:
         return '', 400
     todo = {
-        "title": req['title'],
+        "title": cleanStr(req['title']),
         "id": unsafeRandId(10),
         "completed": False
     }

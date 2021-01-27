@@ -88,7 +88,7 @@ def update_todo():
     return '', 204
 
 
-# add a new todo action
+# add a new todo action.
 
 
 @app.route('/todos', methods=['POST'])

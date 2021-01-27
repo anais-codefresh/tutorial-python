@@ -26,6 +26,8 @@ app = flask.Flask(__name__, static_url_path='/static')
 def unsafeRandId(len):
     return ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(len))
 
+def cleanStr(str):
+    return re.sub(r'[>|<|;|`|&|/|\\]', '', str)    
 
 @app.errorhandler(Exception)
 def handle_exception(e):
@@ -92,17 +94,17 @@ def add_todo():
     todos = Store.getInstance().todos
     fr = flask.request
     req = fr.get_json()
-    todoStr = req['title']
+    todoStr = cleanStr(req['title'])
     if not todoStr:
         return '', 400
     todo = {
-        "title": req['title'],
+        "title": cleanStr(req['title']),
         "id": unsafeRandId(10),
         "completed": False
     }
     todos.append(todo)
     on_add_todo_logging(todoStr)
-    return '', 204
+    return '', 204   
 
 
 @app.route('/todos', methods=['GET'])
